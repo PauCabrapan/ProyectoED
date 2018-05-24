@@ -24,7 +24,14 @@ import java.awt.Scrollbar;
 import java.awt.List;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
+/**
+ * Clase Interfaz que representa la interfaz grafica del programa.
+ * @author Cabrapan Paula y Cabrapan Diego.
+ *
+ */
 public class Interfaz extends JFrame {
 	private JTextField ValorN;
 	private JOptionPane msg;
@@ -34,7 +41,7 @@ public class Interfaz extends JFrame {
 	private JTextField operacion;
 
 	/**
-	 * Launch the application.
+	 * Ejecuta la aplicacion.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -50,11 +57,11 @@ public class Interfaz extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Crea el frame.
 	 */
 	public Interfaz() {
 		getContentPane().setLayout(null);
-		
+		//Componentes y sus propiedades
 		NombreVar = new JTextField();
 		NombreVar.setBounds(165, 50, 86, 20);
 		getContentPane().add(NombreVar);
@@ -72,13 +79,28 @@ public class Interfaz extends JFrame {
 		JLabel lblValorNumerico = new JLabel("Valor numerico");
 		lblValorNumerico.setBounds(36, 94, 70, 14);
 		getContentPane().add(lblValorNumerico);
+				
+		JLabel lblIngresarOperacion = new JLabel("Ingresar operacion");
+		lblIngresarOperacion.setBounds(37, 215, 110, 14);
+		getContentPane().add(lblIngresarOperacion);
 		
 		msg=new JOptionPane();
 		JLabel Variables = new JLabel("");
-		List list = new List();
-		list.setVisible(false);
 		
+		List listVar = new List();
+		listVar.setVisible(false);
+		listVar.setBounds(10, 139, 110, 60);
+		getContentPane().add(listVar);
+		
+		List LInfo = new List();
+		LInfo.setBounds(283, 153, 110, 82);
+		getContentPane().add(LInfo);
+		listVar.setVisible(false);		
+		
+		//Boton Guardar variable y su oyente
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.setBounds(290, 74, 89, 23);
+		getContentPane().add(btnGuardar);
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(isNumeric(ValorN.getText())) {
@@ -92,9 +114,7 @@ public class Interfaz extends JFrame {
 						msg.showMessageDialog(null, "Debe ser numerico el valor");
 						ValorN.setText("");
 						ValorN.setFocusable(true);
-				}
-				
-					
+				}	
 			}
 			private boolean isNumeric(String s) {
 				boolean es=true;
@@ -106,49 +126,37 @@ public class Interfaz extends JFrame {
 		        return es;
 			}
 		});
-		btnGuardar.setBounds(290, 74, 89, 23);
-		getContentPane().add(btnGuardar);
 		
+		//Boton ver variables y su oyente
 		JButton btnVerVariables = new JButton("Ver variables");
+		btnVerVariables.setBounds(10, 119, 110, 23);
+		getContentPane().add(btnVerVariables);
 		btnVerVariables.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				list.setVisible(true);
+				listVar.setVisible(true);
 				if(o.estaVacio())
-					list.add("No hay elementos");
+					listVar.add("No hay elementos");
 				else {
 					for(String st:o.toS())
-						list.add(st);
+						listVar.add(st);
 				}
 			}
 		});
-		btnVerVariables.setBounds(278, 146, 108, 23);
-		getContentPane().add(btnVerVariables);
 		
-		list.setBounds(10, 139, 110, 60);
-		getContentPane().add(list);
-		
-		JLabel lblIngresarOperacion = new JLabel("Ingresar operacion");
-		lblIngresarOperacion.setBounds(37, 215, 110, 14);
-		getContentPane().add(lblIngresarOperacion);
-		
-		operacion = new JTextField();
-		int resultado;
-		operacion.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					String oper=operacion.getText();
-				o.validarOp(oper);
-				}
+		//Boton para mostrar info del arbol y su oyente.
+		JButton btnMostrarInformacionDel = new JButton("Mostrar informacion del arbol");
+		btnMostrarInformacionDel.setBounds(238, 119, 186, 23);
+		getContentPane().add(btnMostrarInformacionDel);
+		btnMostrarInformacionDel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				LInfo.setVisible(true);
+				LInfo.add(o.altura());
+				LInfo.add(o.hojas());
+				LInfo.add(o.internos());
+				LInfo.add(o.nodos());
+				
 			}
-			
 		});
-		
-		operacion.setBounds(167, 212, 108, 20);
-		getContentPane().add(operacion);
-		operacion.setColumns(10);
-		
-		
 	
 	}
 }

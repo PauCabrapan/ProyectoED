@@ -1,5 +1,5 @@
 package TDAMapeo;
-import ListaSimplementeEnlazada.*;
+import TDALista.*;
 
 public class Mapeo<K,V> implements Map<K,V> {
 

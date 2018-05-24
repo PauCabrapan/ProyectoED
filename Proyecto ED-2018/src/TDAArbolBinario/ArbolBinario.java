@@ -1,7 +1,7 @@
 package TDAArbolBinario;
 import java.util.Iterator;
 
-import ListaSimplementeEnlazada.*;
+import TDALista.*;
 
 public class ArbolBinario<E> implements BinaryTree<E> {
 	protected BTPosition<E> raiz;
@@ -92,9 +92,13 @@ public class ArbolBinario<E> implements BinaryTree<E> {
 	}
 	public void Attach(Position<E> r, BinaryTree<E> T1, BinaryTree<E> T2) throws InvalidPositionException{
 		BTPosition<E> n=checkposition(r);
-		if(n.getLeft()!=null && n.getRight()!=null)
+		if(n.getLeft()!=null || n.getRight()!=null)
 			throw new InvalidPositionException("Posicion invalida");
-		try {
+		try {               
+			BTNodo<E> p1=(BTNodo<E>) checkposition(T1.root());
+			p1.setParent(n);
+			BTNodo<E> p2=(BTNodo<E>) checkposition(T2.root());
+			p2.setParent(n);
 			n.setLeft(checkposition(T1.root()));
 			n.setRight(checkposition(T2.root()));
 			size=size+T1.size()+T2.size();
